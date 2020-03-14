@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "483931334999",
+    "firebase_url": "https://alertme-630e1.firebaseio.com",
+    "project_id": "alertme-630e1",
+    "storage_bucket": "alertme-630e1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:483931334999:android:f2cbc984eded155f5d7612",
+        "android_client_info": {
+          "package_name": "com.flutterant.alert_me"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "483931334999-sq7e01iiomje3ec0b9man0psh2ee1750.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoAhjMnvCOdiXu_cxwakcygv0Dz5EI_gA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "483931334999-sq7e01iiomje3ec0b9man0psh2ee1750.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:483931334999:android:baaad516147342605d7612",
+        "android_client_info": {
+          "package_name": "com.flutterant.alert_me_attendence"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "483931334999-sq7e01iiomje3ec0b9man0psh2ee1750.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoAhjMnvCOdiXu_cxwakcygv0Dz5EI_gA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "483931334999-sq7e01iiomje3ec0b9man0psh2ee1750.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
