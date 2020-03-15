@@ -39,6 +39,7 @@ dev_dependencies:
   cloud_firestore: ^0.13.4+1
   fluttertoast:
   toast: ^0.1.5
+  dio: ^3.0.9
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

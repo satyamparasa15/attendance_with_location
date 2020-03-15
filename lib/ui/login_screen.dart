@@ -81,29 +81,61 @@ class _LoginScreenState extends State<LoginScreen> {
     final AuthResult authResult = await _auth.signInWithCredential(credential);
     final FirebaseUser user = authResult.user;
     if (user != null) {
+      Future.delayed(Duration(seconds: 1), (){
+        insertAttendanceData();
+      });
+
       final FirebaseUser user = await _auth.currentUser();
 
       print("Current user data ${user.toString()}");
       print("User name ---------${user.displayName}");
-      insertRecord(user);
+     // insertRecord(user);
 
     }
   }
 
-  void insertRecord(FirebaseUser user) async{
-    print("in Insert record method-----");
-   await  databaseReference.collection("users")
-    .document(user.uid)
-    .setData({
-      'email': user.email,
-      'name':user.displayName,
-      'phone':user.phoneNumber,
-     'department':''
+//  void insertRecord(FirebaseUser user) async{
+//    print("in Insert record method-----");
+//   await  databaseReference.collection("users")
+//    .document("my doc")
+//    .setData({
+//      'email': user.email,
+//      'name':user.displayName,
+//      'phone':user.phoneNumber,
+//     'department':''
+//    });
+//   print("before navigationss.......");
+//    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+//      return HomeScreen();
+//    }));
+//    print("after navigations........");
+//  }
+
+  void insertAttendanceData() {
+    print("ingjhgjjfhggy");
+    FirebaseAuth auth = FirebaseAuth.instance;
+    final databaseReference = Firestore.instance;
+    auth.currentUser().then((user) async {
+      print("insert data");
+      await databaseReference
+          .collection("users")
+          .document(user.uid)
+        . setData({
+        'email': user.email,
+        'name': user.displayName,
+        'phone':user.phoneNumber,
+        'department':''
+      }).then((val) {
+        print("the value is after attendance ");
+        Future.delayed(
+            Duration(
+              seconds: 1,
+            ), () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+            return HomeScreen();
+          }));
+        });
+      });
     });
-   print("before navigationss.......");
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      return HomeScreen();
-    }));
-    print("after navigations........");
   }
 }

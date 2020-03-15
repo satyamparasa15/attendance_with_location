@@ -1,9 +1,12 @@
+import 'dart:convert';
+import 'package:intl/intl.dart';
 import 'package:alert_me_attendence/ui/succes_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:dio/dio.dart';
 
 class AttendanceMarkScreen extends StatefulWidget {
   @override
@@ -61,23 +64,10 @@ class _AttendanceMarkScreenState extends State<AttendanceMarkScreen> {
     }
     if (isAuthenticated) {
       insertAttendanceData();
+      sendDataToDb();
     } else {
       print("not authenticated....");
     }
-//    if (!mounted) return;
-//    setState(() async {
-//      _authorizedOrNot = authenticated ? "Authorized" : "Not Authorized";
-//      if (authenticated) {
-//        await Future.delayed(
-//            new Duration(
-//              milliseconds: 500,
-//            ), () {
-//          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-//            return SuccessScreen();
-//          }));
-//        });
-//      }
-//    });
   }
 
   @override
@@ -133,24 +123,62 @@ class _AttendanceMarkScreenState extends State<AttendanceMarkScreen> {
     FirebaseAuth auth = FirebaseAuth.instance;
     final databaseReference = Firestore.instance;
     auth.currentUser().then((user) async {
+//      await databaseReference
+//          .collection("attendance")
+//          .document(user.uid)
+//          .setData({
+//        'email': user.email,
+//        'name': user.displayName,
+//        'isPresent': true,
+//        'date': DateTime.now().add(Duration(days: 1))
       await databaseReference
-          .collection("attendance")
-          .document(user.uid)
+          .collection('attendance')
+          .document(DateTime.now().toString())
+          .collection(user.uid)
+          .document(user.email)
           .setData({
         'email': user.email,
         'name': user.displayName,
         'isPresent': true,
-        'date': DateTime.now()
-      }).then((val) {
-        print("the value is after attendance ");
-        Future.delayed(
-            Duration(
-              seconds: 1,
-            ), () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            return SuccessScreen();
-          }));
-        });
+        'date': DateTime.now().add(Duration(days: 2))
+      });
+    }).then((val) {
+      print("the value is after attendance ");
+      Future.delayed(
+          Duration(
+            seconds: 1,
+          ), () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+          return SuccessScreen();
+        }));
+      });
+    });
+  }
+
+  void sendDataToDb() {
+    DateFormat dateFormat = DateFormat("dd-MM-yyyy");
+    String date = dateFormat.format(DateTime.now());
+    print("formated date $date");
+    DateFormat timeFormat = DateFormat('hh:mm a');
+    String time = timeFormat.format(DateTime.now());
+
+    Dio dio = new Dio();
+    FirebaseAuth auth = FirebaseAuth.instance;
+
+    print("current date with formate ${DateTime.now()}");
+    auth.currentUser().then((user) {
+      dio.post("http://www.flutterant.com/alert_me/conn.php", data: {
+        "email": "user.email",
+        "name1": "user.displayName",
+        "time": "time",
+        "date1": "date",
+        "status": "true"
+      }).then((response) {
+        print("responser is ${response.data}");
+        if (response.statusCode == 200) {
+          var data = json.decode(response.data);
+          print("data is ${data['message']}");
+        }
       });
     });
   }
